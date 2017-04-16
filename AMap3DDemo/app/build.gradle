@@ -1,0 +1,66 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+}
+apply plugin: 'com.android.application'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+}
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    signingConfigs {
+        amap {
+            keyAlias 'amapkey'
+            keyPassword '123456'
+            storeFile file("amap123456key.jks")
+            storePassword '123456'
+            //sha1
+            //47:44:EF:FD:6D:32:8D:41:BB:26:2C:58:62:E8:1B:0E:19:B9:84:04
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+
+
+
+        // Move the tests to tests/java, tests/res, etc...
+        instrumentTest.setRoot('tests')
+
+        // Move the build types to build-types/<type>
+        // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
+        // This moves them out of them default location under src/<type>/... which would
+        // conflict with src/ being used by the main source set.
+        // Adding new build types or product flavors should be accompanied
+        // by a similar customization.
+        debug.setRoot('build-types/debug')
+        release.setRoot('build-types/release')
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+             signingConfig signingConfigs.amap
+
+        }
+
+        debug {
+            signingConfig signingConfigs.amap
+        }
+    }
+    defaultConfig {
+        applicationId "com.amap.map3d.demo"
+        minSdkVersion 14
+        targetSdkVersion 22
+        versionCode 2
+        versionName "2.0"
+    }
+
+}
+

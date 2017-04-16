@@ -1,0 +1,40 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    signingConfigs {
+        amap {
+            keyAlias 'amapkey'
+            keyPassword '123456'
+            storeFile file("amap123456key.jks")
+            storePassword '123456'
+            //sha1
+            //47:44:EF:FD:6D:32:8D:41:BB:26:2C:58:62:E8:1B:0E:19:B9:84:04
+        }
+    }
+    defaultConfig {
+        applicationId "com.amap.map2d.demo"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.amap
+
+        }
+
+        debug {
+            signingConfig signingConfigs.amap
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
